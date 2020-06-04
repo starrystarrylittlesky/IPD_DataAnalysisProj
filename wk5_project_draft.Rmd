@@ -1,0 +1,226 @@
+---
+title: "An exploration of various factors affecting life satisfaction from the BRFSS data"
+output: 
+  html_document: 
+    fig_height: 4
+    highlight: pygments
+    theme:  cerulean
+---
+
+* * *
+
+# Setup
+
+## Load packages
+
+```{r load-packages, message=FALSE}
+library(statsr)
+library(dplyr)
+library(ggplot2)
+```
+
+## Load data
+
+```{r load_data_frame}
+load("brfss2013.RData")
+```
+
+* * *
+
+# Part 1: Data
+
+The observations in the sample are collected by the BRFSS in the US, which is the population, within each state in the US. Data collected pertains to an individual's personal habits (e.g. wearing a seatbelt in the car, eating habits, exercising habits, etc.) and health conditions. These data are managed by the Centre for Disease Control (CDC) in the US.
+
+Data is collected from residents aged 18 or above. All 50 states of the US participates in this project, along with other states such as Puerto Rico, Guam, and the District of Federal Columbia. This is an example of stratified sampling, where the entirety of the US (plus other territories) is divided into states (the stratas) first, then random sampling is done within each state. 
+
+Data collection is facilitated by each state individually, though the questionnaires used are the same (except for variations in languages, where applicable). 
+
+
+**Data's generalisability**
+
+
+Data collected will first be state-specific, thus generalisable from the sample to the whole of the state. Additionally, putting together all samples collected from all the states forms a large sample that can be generalised to the population of the US. 
+
+Observations in the sample are collected through telephone-based methods, such as landline telephone and cellular telephone. This method was chosen as more than 90% of US households has telephone services. Due to a concern that the households not connected via telephone may be systematically excluded due to the data collection method, BRFSS weights their sample,  such that more under-represented participants are sampled to balance out the groups. This increases the data's generalisability, as potential errors from overestimating results are minimised.
+
+However, it should be noted that the data collection method of phoning participants may arise issues. For example, participants who were busy or occupied (e.g. at work) during the time of the phone call may refuse to be surveyed or not take the phone call. This may accumulate a high non-response rate, where only participants who are free (e.g. do not work) take the calls, resulting in a systematic bias in the results. 
+
+In addition, certain questions pertaining to one's health that may be perceived as embarrassing or private may not be answered truthfully. Participants may also have difficulty recalling accurate answers for many of the more specific questions (e.g. number of days they felt depressed in the past 30 days). This may result in inaccuracy of data collected as well.
+
+
+**Data's causality**
+
+
+In this case, causality cannot be assumed as this is not an experimental study. There are no experimental conditions, thus no random assignment of participants to conditions. Only self-reported data were collected from participants based on their own experiences. In a non-experimental study, causal relationships cannot be assumed. 
+
+At best, correlations can be drawn from the data.
+
+
+* * *
+
+
+# Part 2: Research questions
+
+
+**Research question 1:** 
+
+Hopman-Rock, Kraaimaat, and Bijlsma (1997) found that in a sample of elderly in the Netherlands, as pain in the hip or knee increased, their quality of life decreased. Their paper also brought up the association between pain in the hip / knee with mobility in everyday activities, which may then affect how they feel about life. Similarly, joint pains in the BRFSS questionnaire can be attributed the same responsibility with regards to its effect on everyday mobility. 
+
+It is thus worthwhile to investigate if this relationship is present despite (a) the current sample being from the US (and not the Netherlands, as in the above study), and (b) the sample is inclusive of adults 18 and above, not just the elderly. Understanding this helps to guide caregivers and individuals to be more aware of how their physical health affects their subjective well-being too.
+
+To investigate any possible relationship between one's extent of joint pain and their satisfaction with life, I ask the question: *Is the extent of joint pains related to one's satisfaction with life?*
+
+
+**Research question 2:**
+
+Grant, Wardle, and Steptoe (2009) found that not smoking is related to increased life satisfaction in a sample of internationally-diverse students (including from the US, Europe, Pacific Asia, etc). In addition, a meta-analysis by Mucha, Stephenson, Morandi, and Dirani (2006) found that there is a gender difference in smoking rates, such that females were likely to smoke more than males. (For simplicity, gender is taken to mean biological sex in this whole document.)
+
+Though smoking is established as a risk factor to causing chronic physical health conditions such as lung cancer, it is important to note if smoking affects one's subjective well-being in the form of their satisfaction in life as well. It will also be helpful to note if smoking habits may potentially differ between genders, thus indirectly affecting the relationship with life satisfaction too.
+
+Thus, I ask: *Is smoking related to one's satisfaction in life? Does this relationship differ between genders, such that it is stronger or weaker for a certain gender?*
+
+
+**Research question 3:**
+
+In a random sample of Australians adults, Mujcic and Oswald (2016) found that eating more vegetables and fruits were associated with a higher sense of life satisfaction. It is worthwhile to find out if this relationship stands in a US sample as well. However, not all households will be able to afford fruits and vegetables as they please. Cassady, Jetter, and Culp (2007) found that low-income families in parts of US may experience difficulty in buying the amount of fruits and vegetables recommended for a healthy diet. 
+
+This is important, as establishing a price barrier may show evidence for the difficulty low-income families may face in acquiring necessities for a healthy lifestyle.
+
+Thus, I ask: *Is eating habits of vegetables and fruits related to one's satisfaction in life? Does this relationship differ based on income level, such that it is stronger or weaker for a certain level of income?*
+
+
+* * *
+
+
+## References
+
+
+Cassady, D., Jetter, K. M., & Culp, J. (2007). Is price a barrier to eating more fruits and vegetables for low-income families?. *Journal of the American Dietetic Association, 107*(11), 1909-1915.
+
+Grant, N., Wardle, J., & Steptoe, A. (2009). The relationship between life satisfaction and health behavior: a cross-cultural analysis of young adults. *International Journal of Behavioral Medicine, 16*(3), 259-268.
+
+Hopman-Rock, M., Kraaimaat, F. W., & Bijlsma, J. W. J. (1997). Quality of life in elderly subjects with pain in the hip or knee. *Quality of Life Research, 6*(1), 67-76.
+
+Mucha, L., Stephenson, J., Morandi, N., & Dirani, R. (2006). Meta-analysis of disease risk associated with smoking, by gender and intensity of smoking. *Gender Medicine, 3*(4), 279-291.
+
+Mujcic, R., & J. Oswald, A. (2016). Evolution of well-being and happiness after increases in consumption of fruit and vegetables. *American Journal of Public Health, 106*(8), 1504-1510.
+
+
+* * *
+
+
+# Part 3: Exploratory data analysis
+
+
+NOTE: Insert code chunks as needed by clicking on the "Insert a new code chunk" 
+button (green button with orange arrow) above. Make sure that your code is visible
+in the project you submit. Delete this note when before you submit your work.
+
+## Data preparation
+
+
+All research questions pertains to life satisfaction, which uses the variable ```lsatisfy```. There is one item in the questionnaire that measures life satisfaction by asking "In general, how satisfied are you with your life?". Participants answered on a scale of 1 to 4. 
+
+* 1 = very satisfied  
+* 2 = satisfied  
+* 3 = dissatisfied  
+* 4 = very dissatisfied  
+
+(In addition, participants can choose not to answer this question or answer 'don't know'.)
+
+
+**Data preparation for Research Question 1**
+
+
+To answer RQ1 (*Is the extent of joint pains related to one's satisfaction with life?*), I will analyse how joint pains for the past 30 days affects one's level of life satisfaction. 
+
+Joint pain is measured via the variable ```joinpain```, and answered on a scale of 0 to 10.
+
+* 0 = no pain or aching  
+* 10 = pain or aching that is as bad as it can be  
+
+(In addition, participants can choose not to answer this question or answer 'don't know'.)
+
+I will simplify joint pain intensity in this analysis. To do so, I separate joint pains for a month into 4 categories according to the participants' rating.
+
+* 0 = No pain  
+* 1 to 3 = Low pain  
+* 4 to 6 = Mid pain  
+* 7 to 10 = High pain  
+
+
+**Data preparation for Research Question 2**
+
+
+To answer RQ2 (*Is smoking related to one's satisfaction in life? Does this relationship differ between genders, such that it is stronger or weaker for a certain gender?*), I will analyse how smoking affects one's life satisfaction, and how gender affects this relationship.
+
+The intensity of smoking will be considered in this analysis using the variable ```smokday2```, which depicts how often the participants smoke. Using its categorisation, participants are divided into 3 categories:
+
+* 1 = everyday  
+* 2 = some days  
+* 3 = not at all  
+
+(In addition, participants can choose not to answer this question or answer 'don't know'.)
+
+Gender does not need further manipulation, using the variable ```sex```. 
+
+* 1 = male  
+* 2 = female  
+
+
+**Data preparation for Research Question 3**
+
+
+To answer RQ3 (*Is eating habits of vegetables and fruits related to one's satisfaction in life? Does this relationship differ based on income level, such that it is stronger or weaker for a certain level of income?*), I will look into the amount of vegetables and fruits one eats per day, how it affects life satisfaction, and how income level affects this relationship.
+
+The amount of vegetables one eats per day is considered using the variable ```_vegesum```, and the amount of fruits one eats per day is considered using the variable ```_frutsum```. These will be values ranging from 0 to 99998. 
+
+(In addition, participants can choose not to answer this question or answer 'don't know'.)
+
+The values given in both ```_vegesum``` and ```_frutsum``` will be added together and considered a new variable for ease of calculation in data analysis as ```vegefrutsum```.
+
+Income categories will not be manipulated, and will merely use the ```income2``` variable from the data itself. It classifies income categories according to:
+
+* 1 = less than $10,000  
+* 2 = $10,000 to less than 15,000  
+* 3 = $15,000 to less than 20,000  
+* 4 = $20,000 to less than 25,000  
+* 5 = $25,000 to less than 35,000  
+* 6 = $35,000 to less than 50,000  
+* 7 = $50,000 to less than 75,000  
+* 8 = $75,000 and more  
+
+(In addition, participants can choose not to answer this question or answer 'don't know'.)
+
+
+**Coding Data Preparation**
+
+
+
+
+
+## Data Analysis 
+
+**Research question 1:**
+
+
+```{r}
+
+```
+
+
+
+**Research question 2:**
+
+```{r}
+
+```
+
+
+
+**Research question 3:**
+
+```{r}
+
+```
+
